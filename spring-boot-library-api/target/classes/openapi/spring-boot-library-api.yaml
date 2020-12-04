@@ -1,0 +1,67 @@
+openapi: "3.0.0"
+info:
+  title: Spring Boot Library
+  description: Spring Boot Library interface
+  version: 1.0.0
+tags:
+  - name: Spring Boot Library
+    description: Spring Boot Library
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: localhost
+
+paths:
+
+  /clients:
+    get:
+      description: Retrieve clients.
+      operationId: retrieveClients
+      tags:
+        - ClientRetriever
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientDto'
+        404:
+          description: Code `02` - Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+
+components:
+  schemas:
+    ErrorDto:
+      type: object
+      required:
+        - code
+      properties:
+        datetime:
+          type: string
+          format: date-time
+          example: "2019-11-20T23:00:00.45875Z"
+        code:
+          type: string
+          enum: ["01", "05", "06"]
+          description: |
+            * `01` - Internal error <exception message>
+            * `05` - Message not readable
+            * `06` - Message field(s) not valid
+          example: "02"
+        message:
+          type: string
+          example: client does not exist
+        details:
+          type: string
+
+    ClientDto:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
