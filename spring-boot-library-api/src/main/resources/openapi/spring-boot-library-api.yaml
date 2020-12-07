@@ -387,8 +387,11 @@ components:
       required:
         - title
         - state
+        - publisherId
       properties:
         id:
+          type: number
+        publisherId:
           type: number
         title:
           type: string
@@ -425,15 +428,20 @@ components:
         - clientId
         - bookId
       properties:
-        clientId:
+        id:
           type: number
+        clientId:
+          type: string
         bookId:
           type: number
-        loanDatetime:
+        startDatetime:
           type: string
           format: date-time
-        loanDuration:
+        duration:
           type: string
+        endDatetime:
+          type: string
+          format: date-time
         returnDatetime:
           type: string
           format: date-time

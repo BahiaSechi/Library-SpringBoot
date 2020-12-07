@@ -1,11 +1,9 @@
 package com.ensicaen.springbootlibrary.book
 
 import com.ensicaen.openapi.springbootlibrary.api.BookDto
-import org.mapstruct.InjectionStrategy.CONSTRUCTOR
-import org.mapstruct.Mapper
+import com.ensicaen.springbootlibrary.publisher.PublisherEntity
 
-@Mapper(componentModel = "spring", injectionStrategy = CONSTRUCTOR)
 interface BookMapper {
-    fun fromDto(bookDto: BookDto): BookEntity
+    fun fromDto(bookDto: BookDto, publisherEntity: PublisherEntity): BookEntity
     fun fromEntity(bookEntity: BookEntity): BookDto
 }

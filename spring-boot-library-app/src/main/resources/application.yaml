@@ -16,11 +16,12 @@ spring:
   datasource:
     platform: postgresql
     url: jdbc:postgresql://${POSTGRES_SERVER:localhost:5432}/spring-boot-library
-    initialization-mode: always
+    initialization-mode: never
     name: spring-boot-library
     username: spring-boot-library
     password: spring-boot-library
   jackson:
+    default-property-inclusion: NON_NULL
     deserialization:
       adjust-dates-to-context-time-zone: false
       fail-on-unknown-properties: true
