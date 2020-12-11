@@ -411,11 +411,16 @@ components:
         - title
         - state
         - publisherId
+        - authorsId
       properties:
         id:
           type: number
         publisherId:
           type: number
+        authorsId:
+          type: array
+          items:
+            type: string
         title:
           type: string
         state:

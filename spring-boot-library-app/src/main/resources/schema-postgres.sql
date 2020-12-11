@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS author CASCADE;
 DROP TABLE IF EXISTS publisher CASCADE;
 DROP TABLE IF EXISTS book CASCADE;
 DROP TABLE IF EXISTS loan CASCADE;
+DROP TABLE IF EXISTS author_book CASCADE;
 
 CREATE TABLE author
 (
@@ -33,4 +34,14 @@ CREATE TABLE loan
     end_datetime                TIMESTAMP WITH TIME ZONE NOT NULL,
     return_datetime             TIMESTAMP WITH TIME ZONE,
     FOREIGN KEY (book_id)  REFERENCES book(id)
+);
+
+CREATE TABLE author_book
+(
+    book_id BIGINT,
+    author_id BIGINT,
+    FOREIGN KEY (book_id) REFERENCES book(id),
+    FOREIGN KEY (author_id)  REFERENCES author(id),
+    PRIMARY KEY (book_id, author_id),
+    UNIQUE (book_id, author_id)
 );
