@@ -35,4 +35,10 @@ class LoanController(private val loanService: LoanService) : LoansApi {
         loanService.delete(id)
         return noContent().build()
     }
+
+    override fun returnLoan(id: String): ResponseEntity<Unit> {
+        LOGGER.info("Request to return loan with id {}", id)
+        loanService.returnLoan(id)
+        return noContent().build()
+    }
 }

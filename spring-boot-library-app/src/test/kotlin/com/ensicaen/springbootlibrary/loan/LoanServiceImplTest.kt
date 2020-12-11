@@ -189,7 +189,7 @@ internal class LoanServiceImplTest {
 
         // then
         verify(exactly = 1) { loanRepositoryMock.save(capture(loanEntityCaptor)) }
-        assertThat(loanEntityCaptor.captured.book.state).isEqualTo(AVAILABLE)
+        assertThat(loanEntityCaptor.captured.book.state).isEqualTo(UNAVAILABLE)
         verify(exactly = 1) { loanRepositoryMock.delete(loanEntity) }
     }
 
@@ -202,6 +202,37 @@ internal class LoanServiceImplTest {
         // when and then
         assertThatExceptionOfType(LoanNotFoundException::class.java)
             .isThrownBy { loanService.delete(loanId) }
+            .withMessage("Loan with id 1 not found")
+    }
+
+    @Test
+    fun returnLoan() {
+        // given
+        val loanId = "1"
+        val loanEntity = createLoanEntity()
+        val loanEntityCaptor = slot<LoanEntity>()
+        every { loanRepositoryMock.findByIdOrNull(loanId.toLong()) } returns loanEntity
+        every { loanRepositoryMock.save(capture(loanEntityCaptor)) } answers { loanEntityCaptor.captured }
+
+        // when
+        loanService.returnLoan(loanId)
+
+        // then
+        verify(exactly = 1) { loanRepositoryMock.save(capture(loanEntityCaptor)) }
+        val capturedLoanEntity = loanEntityCaptor.captured
+        assertThat(capturedLoanEntity.book.state).isEqualTo(AVAILABLE)
+        assertThat(capturedLoanEntity.returnDatetime).isCloseToUtcNow(byLessThan(1, MINUTES))
+    }
+
+    @Test
+    fun `returnLoan with loan not found`() {
+        // given
+        val loanId = "1"
+        every { loanRepositoryMock.findByIdOrNull(loanId.toLong()) } returns null
+
+        // when and then
+        assertThatExceptionOfType(LoanNotFoundException::class.java)
+            .isThrownBy { loanService.returnLoan(loanId) }
             .withMessage("Loan with id 1 not found")
     }
 }

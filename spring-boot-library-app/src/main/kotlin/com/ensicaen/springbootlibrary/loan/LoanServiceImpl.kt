@@ -1,7 +1,6 @@
 package com.ensicaen.springbootlibrary.loan
 
-import com.ensicaen.openapi.springbootlibrary.api.BookState.AVAILABLE
-import com.ensicaen.openapi.springbootlibrary.api.BookState.BORROWED
+import com.ensicaen.openapi.springbootlibrary.api.BookState.*
 import com.ensicaen.openapi.springbootlibrary.api.LoanDto
 import com.ensicaen.springbootlibrary.book.BookEntity
 import com.ensicaen.springbootlibrary.book.BookRepository
@@ -11,6 +10,7 @@ import com.ensicaen.springbootlibrary.loan.exception.LoanNotFoundException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.OffsetDateTime.now
 
 @Service
 @Transactional
@@ -51,12 +51,20 @@ class LoanServiceImpl(
         loanRepository.findAll()
             .filter { it.returnDatetime == null }
             .map { loanMapper.fromEntity(it) }
+            .sortedBy(LoanDto::endDatetime)
 
     override fun delete(loanId: String) {
         val loanEntity = getLoanEntity(loanId.toLong())
-        loanEntity.book.state = AVAILABLE
+        loanEntity.book.state = UNAVAILABLE
         loanRepository.save(loanEntity)
         loanRepository.delete(loanEntity)
+    }
+
+    override fun returnLoan(loanId: String) {
+        val loanEntity = getLoanEntity(loanId.toLong())
+        loanEntity.book.state = AVAILABLE
+        loanEntity.returnDatetime = now()
+        loanRepository.save(loanEntity)
     }
 
     private fun getLoanEntity(loanId: Long) =

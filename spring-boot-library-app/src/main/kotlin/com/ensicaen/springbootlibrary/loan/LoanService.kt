@@ -7,4 +7,5 @@ interface LoanService {
     fun read(loanId: String): LoanDto
     fun readUnfinishedLoans(): List<LoanDto>
     fun delete(loanId: String)
+    fun returnLoan(loanId: String)
 }
