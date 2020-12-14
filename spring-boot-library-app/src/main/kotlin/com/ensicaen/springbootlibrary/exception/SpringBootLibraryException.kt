@@ -1,10 +1,11 @@
 package com.ensicaen.springbootlibrary.exception
 
-import com.ensicaen.openapi.springbootlibrary.api.ErrorDto.Code
-import org.apache.http.HttpStatus
+import com.ensicaen.openapi.springbootlibrary.api.ErrorCode
+import org.springframework.http.HttpStatus
+
 
 abstract class SpringBootLibraryException(
     val httpStatus: HttpStatus,
-    val errorCode: Code,
+    val errorCode: ErrorCode,
     message: String
 ) : RuntimeException(message)

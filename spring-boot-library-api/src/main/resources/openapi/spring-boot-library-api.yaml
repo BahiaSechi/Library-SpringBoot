@@ -8,26 +8,377 @@ tags:
     description: Spring Boot Library
 
 servers:
-  - url: http://localhost:8080/api/v1
+  - url: http://localhost:8081/api/v1
     description: localhost
 
 paths:
 
-  /clients:
+  /books:
     get:
-      description: Retrieve clients.
-      operationId: retrieveClients
+      description: Read all books.
+      operationId: readBooks
       tags:
-        - ClientRetriever
+        - Books
       responses:
         200:
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClientDto'
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookDto'
         404:
           description: Code `02` - Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+    post:
+      description: Create a book
+      operationId: createBook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookDto'
+      tags:
+        - Books
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookDto'
+        404:
+          description: Code 02 - Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+
+  /books/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The books's id
+        schema:
+          type: string
+    get:
+      description: Read a book
+      operationId: readBook
+      tags:
+        - Books
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookDto'
+        404:
+          description: Code 02 - Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+    delete:
+      description: Delete a book
+      operationId: deleteBook
+      tags:
+        - Books
+      responses:
+        204:
+          description: successful operation
+        404:
+          description: Code 02 - Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+
+  /authors:
+    get:
+      description: Read all authors.
+      operationId: readAuthors
+      tags:
+        - Authors
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AuthorDto'
+        404:
+          description: Code `02` - Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+    post:
+      description: Create an author
+      operationId: createAuthor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorDto'
+      tags:
+        - Authors
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorDto'
+        404:
+          description: Code 02 - Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+
+  /authors/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The authors's id
+        schema:
+          type: string
+    get:
+      description: Read an author
+      operationId: readAuthor
+      tags:
+        - Authors
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorDto'
+        404:
+          description: Code 02 - Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+    delete:
+      description: Delete an author
+      operationId: deleteAuthor
+      tags:
+        - Authors
+      responses:
+        204:
+          description: successful operation
+        404:
+          description: Code 02 - Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+
+  /publishers:
+    get:
+      description: Read all publishers.
+      operationId: readPublishers
+      tags:
+        - Publishers
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublisherDto'
+        404:
+          description: Code `02` - Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+    post:
+      description: Create a publisher
+      operationId: createPublisher
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublisherDto'
+      tags:
+        - Publishers
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublisherDto'
+        404:
+          description: Code 02 - Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+
+  /publishers/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The publishers's id
+        schema:
+          type: string
+    get:
+      description: Read a publisher
+      operationId: readPublisher
+      tags:
+        - Publishers
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublisherDto'
+        404:
+          description: Code 02 - Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+    delete:
+      description: Delete a publisher
+      operationId: deletePublisher
+      tags:
+        - Publishers
+      responses:
+        204:
+          description: successful operation
+        404:
+          description: Code 02 - Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+
+  /loans:
+    get:
+      description: Read all unfinished loans.
+      operationId: readUnfinishedLoans
+      tags:
+        - Loans
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LoanDto'
+        404:
+          description: Code `02` - Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+    post:
+      description: Create a loan
+      operationId: createLoan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoanDto'
+      tags:
+        - Loans
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoanDto'
+        404:
+          description: Code 02 - Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+
+  /loans/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The loans's id
+        schema:
+          type: string
+    get:
+      description: Read a loan
+      operationId: readLoan
+      tags:
+        - Loans
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoanDto'
+        404:
+          description: Code 02 - Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+    delete:
+      description: Delete a loan
+      operationId: deleteLoan
+      tags:
+        - Loans
+      responses:
+        204:
+          description: successful operation
+        404:
+          description: Code 02 - Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+
+  /loans/{id}/return:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The loans's id
+        schema:
+          type: string
+    post:
+      description: Return a loan
+      operationId: returnLoan
+      tags:
+        - Loans
+      responses:
+        204:
+          description: successful operation
+        404:
+          description: Code 02 - Resource not found
           content:
             application/json:
               schema:
@@ -43,25 +394,82 @@ components:
         datetime:
           type: string
           format: date-time
-          example: "2019-11-20T23:00:00.45875Z"
         code:
-          type: string
-          enum: ["01", "05", "06"]
-          description: |
-            * `01` - Internal error <exception message>
-            * `05` - Message not readable
-            * `06` - Message field(s) not valid
-          example: "02"
+          $ref: '#/components/schemas/ErrorCode'
         message:
           type: string
-          example: client does not exist
         details:
           type: string
 
-    ClientDto:
+    ErrorCode:
+      type: string
+      enum: [ "01", "02", "03", "04", "05", "06" ]
+
+    BookDto:
+      type: object
+      required:
+        - title
+        - state
+        - publisherId
+        - authorsId
+      properties:
+        id:
+          type: number
+        publisherId:
+          type: number
+        authorsId:
+          type: array
+          items:
+            type: string
+        title:
+          type: string
+        state:
+          $ref: '#/components/schemas/BookState'
+
+    BookState:
+      type: string
+      enum: [ 'AVAILABLE', 'BORROWED', 'UNAVAILABLE' ]
+
+    PublisherDto:
       type: object
       required:
         - name
       properties:
+        id:
+          type: number
         name:
           type: string
+
+    AuthorDto:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+
+    LoanDto:
+      type: object
+      required:
+        - clientId
+        - bookId
+      properties:
+        id:
+          type: number
+        clientId:
+          type: string
+        bookId:
+          type: number
+        startDatetime:
+          type: string
+          format: date-time
+        duration:
+          type: string
+        endDatetime:
+          type: string
+          format: date-time
+        returnDatetime:
+          type: string
+          format: date-time

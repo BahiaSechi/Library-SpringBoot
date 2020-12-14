@@ -14,27 +14,26 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests().anyRequest()
-                .permitAll()
-                .and()
-                .cors()
-                .configurationSource(buildCorsConfigurationSource())
-                .and()
-                .csrf()
-                .disable()
+            .permitAll()
+            .and()
+            .cors()
+            .configurationSource(buildCorsConfigurationSource())
+            .and()
+            .csrf()
+            .disable()
     }
 
     private fun buildCorsConfigurationSource() =
-            UrlBasedCorsConfigurationSource().apply {
-                registerCorsConfiguration("/**", buildCorsConfiguration())
-            }
-
+        UrlBasedCorsConfigurationSource().apply {
+            registerCorsConfiguration("/**", buildCorsConfiguration())
+        }
 
     private fun buildCorsConfiguration() =
-            CorsConfiguration().apply {
-                allowCredentials = true
-                addAllowedHeader("*")
-                addAllowedMethod("*")
-                addAllowedOrigin("*")
-            }
+        CorsConfiguration().apply {
+            allowCredentials = true
+            addAllowedHeader("*")
+            addAllowedMethod("*")
+            addAllowedOrigin("*")
+        }
 
 }
